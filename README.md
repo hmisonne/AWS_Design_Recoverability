@@ -2,7 +2,7 @@
 
 This project is part of the Udacity Cloud Architect Nanodegree.
 
-The goals of this project is to :
+The goal of this project is to :
 - Build a Multi-AvailabilityZone, Multi-Region database and show how to use it in multiple geographically separate AWS regions.  
 - Build a website hosting solution that is versioned so that any data destruction and accidents can be quickly and easily undone.
 
