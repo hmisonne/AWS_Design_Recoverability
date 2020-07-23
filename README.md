@@ -100,7 +100,7 @@ I created an EC2 keypair and launched an Amazon Linux EC2 instance in the active
 
 I established a SSH connection to the instance by running this command:
 ```
-ssh -i 'absolute/path/to/PrimaryKeyPair.pem' 'EC2 identifiers provided on the EC2 console while clicking on connect'
+ssh -i {absolute/path/to/PrimaryKeyPair.pem} {EC2 identifiers provided on the EC2 console while clicking on connect}
 ```
 After being connected and having mysql installed, I connected to my database by running this command:
 ```
@@ -126,7 +126,7 @@ In the standby region:
 I created an EC2 keypair in the region and launched an Amazon Linux EC2 instance in the standby region with the same configuration as before.
 Since the database in the standby region is a read replica, we can only read from the database but we cannot insert data.
 
-Database configuration before the **database promotion:**
+Database configuration **before the database promotion:**
 ![DB before promotion](screenshots/rr_before_promotion.png "DB before promotion")
 
 Log of connecting to the database, writing to and reading from the database **before the database promotion:**
