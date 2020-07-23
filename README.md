@@ -6,6 +6,14 @@ The goal of this project is to :
 - Build a Multi-AvailabilityZone, Multi-Region database and show how to use it in multiple geographically separate AWS regions.  
 - Build a website hosting solution that is versioned so that any data destruction and accidents can be quickly and easily undone.
 
+AWS resources used:
+- Cloud Formation
+- VPC
+- VPC subnets
+- RDS MySQL
+- EC2
+- S3
+
 This project was cloned from this repository: https://github.com/udacity/nd063-c2-design-for-availability-resilience-reliability-replacement-project-starter-template
 
 ## Project Instructions & Screenshots of achievments
@@ -192,7 +200,7 @@ You will now “accidentally” delete contents from the S3 bucket. Delete “wi
 ![Deleted Content Webpage](screenshots/s3_deletion.png "Deleted Content Webpage")
 
 **Existing versions of the file showing the "Deletion marker".**
-![Delete Marker](screenshots/s3_delete_marker.png "Delete Marker")
+![Delete Marker](screenshots/s3_delete_market.png "Delete Marker")
 
 You will now need to “recover” the object:
 
