@@ -18,7 +18,6 @@ In order to build a VPC from the YAML file, follow the steps:
 
 1. Services -> CloudFormation
 2. Create stack “With new resources (standard)”
-  ![Create VPC](screenshots/cloudformationCreate.png "Create VPC")
 3. Template is ready
 4. Upload a template file
 5. Click “Choose file” button
@@ -45,7 +44,12 @@ In order to achieve the highest levels of durability and availability in AWS you
 2. Use CloudFormation to create one VPC in each region. Name the VPC in the active region "Primary" and name the VPC in the standby region "Secondary".
 
 **NOTE**: Be sure to use different CIDR address ranges for the VPCs.
-**SAVE** screenshots of both VPCs after they are created. Name your screenshots: primary_Vpc.png, secondary_Vpc.png
+
+Primary VPC
+![Primary VPC](screenshots/primary_Vpc.png "Primary VPC")
+
+Secondary VPC
+![Secondary VPC](screenshots/secondary_Vpc.png "Secondary VPC")
 
 
 ### Highly durable RDS Database
@@ -56,19 +60,49 @@ In order to achieve the highest levels of durability and availability in AWS you
      - Have an initial database called “udacity.”
 3. Create a read replica database in the standby region. This database has the same requirements as the database in the active region. 
 
-**SAVE** screenshots of the configuration of the databases in the active and secondary region after they are created. 
-**SAVE** screenshots of the configuration of the database subnet groups as well as route tables associated with those subnets. Name the screenshots: primaryDB_config.png, secondaryDB_config.png, primaryDB_subnetgroup.png, secondaryDB_subnetgroup.png, primaryVPC_subnets.png, secondaryVPC_subnets.png, primary_subnet_routing.png, secondary_subnet_routing.png
+Configuration of the database in the active region:
+![Primary DB config](screenshots/secondaryDB_config.png "Primary DB config")
+
+Configuration of the database in the secondary region:
+![Secondary DB config](screenshots/secondaryDB_config.png "Secondary DB config")
+
+Subnet groups in the active region:
+![Primary DB subnetgroup](screenshots/primaryDB_subnetgroup.png "Primary DB subnetgroup")
+
+Subnet groups in the secondary region:
+![Secondary DB subnetgroup](screenshots/secondaryDB_subnetgroup.png "Secondary DB subnetgroup")
+
+Route tables in subnet of the active region:
+![Primary subnet routing](screenshots/primary_subnet_routing.png "Primary subnet routing")
+
+Route tables in subnet of the active region:
+![Secondary subnet routing](screenshots/secondary_subnet_routing.png "Secondary subnet routing")
 
 
 ### Estimate availability of this configuration
 Write a paragraph or two describing the achievable Recovery Time Objective (RTO) and Recovery Point Objective (RPO) for this Multi-AZ, multi-region database in terms of:
 
-1. Minimum RTO for a single AZ outage
+1. Minimum RTO for a single AZ outage 
+If a multi-AZ configuration is set up, the fail over to another AZ will happen automatically which can take a few minutes.
+    
 2. Minimum RTO for a single region outage
-3. Minimum RPO for a single AZ outage
-4. Minimum RPO for a single region outage
+     ◦ 00:00 - Problem happens (0 minutes) 
+     ◦ 00:05 - An amount of time passes before an alert triggers (5 minutes) 
+     ◦ 00:06 - Alert triggers on-all staff (1 minute) 
+     ◦ 00:16 - On-call staff may need to get out of bed, get to computer, log in, log onto VPN (10 minutes) 
+     ◦ 00:26 - On-call staff starts diagnosing issue (10 minutes) 
+     ◦ 00:41 - Root cause is discovered (15 minutes) 
+     ◦ 00:46 - Remediation started (5 minutes) :  Promote secondary instance to be the new master and then route the traffic to the new endpoint
+     ◦ 00:56 - Remediation completed (10 minutes) 
+     Total time: 56 minutes 
 
-**SAVE** your answers in a text file named "estimates.txt"
+3. Minimum RPO for a single AZ outage
+As it only takes a few minutes to fail over to another AZ, a few minutes of data will be lost.   
+       
+    
+4. Minimum RPO for a single region outage 
+If we set up an RDS database with automatic backups enabled, the RPO will be based on how often data is backed up. If we set up a backup every 4 hours, the minimun RPO will be 4 hours.
+
 
 ### Demonstrate normal usage
 In the active region:
@@ -78,13 +112,19 @@ In the active region:
 4. Verify that you can create a table, insert data, and read data from the database. 
 5. You have now demonstrated that you can read and write to the primary database
 
-**SAVE** the log of connecting to the database, creating the table, writing to and reading from the table in a text file called "log_primary.txt"
+Log of connecting to the database, creating the table, writing to and reading from the table:
+![Log Primary](screenshots/log_primary.png "Log Primary")
+
 
 ### Monitor database
 1. Observe the “DB Connections” to the database and how this metric changes as you connect to the database
 2. Observe the “Replication” configuration with your multi-region read replica. 
 
-**SAVE** screenshots of the DB Connections and the database replication configuration. Name your screenshots: monitoring_connections.png, monitoring_replication.png
+DB Connections:
+![Monitoring connection](screenshots/monitoring_connections.png "Monitoring connection")
+
+DB Replication:
+![Monitoring replication](screenshots/monitoring_replication.png "Monitoring replication")
 
 ### Part 2
 ### Failover And Recovery
@@ -104,9 +144,11 @@ In the standby region:
 7. Verify that if you are able to insert data into and read from the read replica database.
 8. You have now demonstrated that you can read and write the promoted database in the standby region.
 
-**SAVE** log of connecting to the database, writing to and reading from the database in a text file named "log_rr_after_promotion.txt"
+Log of connecting to the database, writing to and reading from the database after the database promotion
+![Log after promotion](screenshots/log_rr_after_promotion.png "Log after promotion")
 
-**SAVE** screenshots of the database configuration after the database promotion. Name your screenshot: rr_after_promotion.png
+Database configuration after the database promotion
+![DB after promotion](screenshots/rr_after_promotion.png "DB after promotion")
 
 ### Part 3
 ### Website Resiliency
