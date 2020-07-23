@@ -16,7 +16,7 @@ AWS resources used:
 
 This project was cloned from this repository: https://github.com/udacity/nd063-c2-design-for-availability-resilience-reliability-replacement-project-starter-template
 
-## Project Instructions & Screenshots of achievments
+## Project Instructions & Screenshots of achievements
 ### Cloud formation
 In this project, you will use the AWS CloudFormation to create Virtual Private Clouds. CloudFormation is an AWS service that allows you to create "infrastructure as code". This allows you to define the infrastructure you'd like to create in code, just like you do with software. This has the benefits of being able to share your infrastructure in a common language, use source code control systems to version your infrastructure and allows for documenting and reviewing of infrastructure and infrastructure proposed changes.
 
