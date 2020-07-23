@@ -61,7 +61,7 @@ In order to achieve the highest levels of durability and availability in AWS you
 3. Create a read replica database in the standby region. This database has the same requirements as the database in the active region. 
 
 **Configuration of the database in the active region:**
-![Primary DB config](screenshots/secondaryDB_config.png "Primary DB config")
+![Primary DB config](screenshots/primaryDB_config.png "Primary DB config")
 
 **Configuration of the database in the secondary region:**
 ![Secondary DB config](screenshots/secondaryDB_config.png "Secondary DB config")
