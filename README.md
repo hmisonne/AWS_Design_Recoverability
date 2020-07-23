@@ -16,44 +16,16 @@ AWS resources used:
 
 This project was cloned from this repository: https://github.com/udacity/nd063-c2-design-for-availability-resilience-reliability-replacement-project-starter-template
 
-## Project Instructions & Screenshots of achievements
+## Project Setup
 ### Cloud formation
-In this project, you will use the AWS CloudFormation to create Virtual Private Clouds. CloudFormation is an AWS service that allows you to create "infrastructure as code". This allows you to define the infrastructure you'd like to create in code, just like you do with software. This has the benefits of being able to share your infrastructure in a common language, use source code control systems to version your infrastructure and allows for documenting and reviewing of infrastructure and infrastructure proposed changes.
+In this project, I used the AWS CloudFormation to create Virtual Private Clouds. CloudFormation is an AWS service that allows you to create "infrastructure as code". 
 
-CloudFormation allows you to use a configuration file written in a YAML file to automate the creation of AWS resources such as VPCs. In this project, you will use a pre-made CloudFormation template to get you started. This will allow you to create some of the infrastructure that you'll need without spending a lot of time learning details that are beyond the scope of this course.
-
-You can find the YAML file in the GitHub repo: https://github.com/udacity/nd063-c2-design-for-availability-resilience-reliability-replacement-project-starter-template/blob/master/cloudformation/vpc.yaml
-
-In order to build a VPC from the YAML file, follow the steps:
-
-1. Services -> CloudFormation
-2. Create stack “With new resources (standard)”
-3. Template is ready
-4. Upload a template file
-5. Click “Choose file” button
-6. Select provided YAML file
-7. Next
-8. Fill in Stack name
-9. Name the VPC
-10. Update the CIDR blocks
-11. Click Next
-12. Click Next again
-13. Click Create stack
-14. Wait for the stack to build out.  Refresh until status becomes “CREATE_COMPLETE”
-15. Observe the “Outputs” tab for the created IDs.  These will be used later.
-
-Once the CloudFormation Stack has completed, you can look at the "Resources" tab to see all of the AWS resources that the stack has created.  You can see both the type of resources that have been created, as well as the AWS identifiers for those resources so that you can locate these resources in the AWS service that they are a part of.
-
-The "Outputs" tab shows you custom output from the CloudFormation Stack that is labeled and described for you.  These descriptions are custom descriptions that were added to the CloudFormation template and make it easier for you to find specific values that have been created as a part of the CloudFormation stack.  Here, you can find the VPC ID that has been created, the subnet IDs including which subnets are public and which are private, and the Security Groups that have been created and a description of each.
+A configuration file written in a YAML file was provided to automate the creation of the VPCs with public and private subnets and Security Groups. The YAML file is available in this GitHub repo: https://github.com/udacity/nd063-c2-design-for-availability-resilience-reliability-replacement-project-starter-template/blob/master/cloudformation/vpc.yaml
 
 ### Part 1
-Complete the following steps:
-### Data durability and recovery
-In order to achieve the highest levels of durability and availability in AWS you must take advantage of multiple AWS regions. 
-1. Pick two AWS regions. An active region and a standby region.
-2. Use CloudFormation to create one VPC in each region. Name the VPC in the active region "Primary" and name the VPC in the standby region "Secondary".
 
-**NOTE**: Be sure to use different CIDR address ranges for the VPCs.
+### Data durability and recovery
+In order to achieve the highest levels of durability and availability in AWS, I deployed a Cloud Formation in 2 AWS regions: An active region and a standby region with different CIDR address ranges for the VPCs.
 
 **Primary VPC:**
 ![Primary VPC](screenshots/primary_Vpc.png "Primary VPC")
@@ -63,18 +35,8 @@ In order to achieve the highest levels of durability and availability in AWS you
 
 
 ### Highly durable RDS Database
-1. Create a new RDS Subnet group in the active and standby region.
-2. Create a new MySQL, multi-AZ database in the active region. The database must:
-     - Be a “burstable” instance class.
-     - Have only the “UDARR-Database” security group.
-     - Have an initial database called “udacity.”
-3. Create a read replica database in the standby region. This database has the same requirements as the database in the active region. 
 
-**Configuration of the database in the active region:**
-![Primary DB config](screenshots/primaryDB_config.png "Primary DB config")
-
-**Configuration of the database in the secondary region:**
-![Secondary DB config](screenshots/secondaryDB_config.png "Secondary DB config")
+To secure the access of the database, I created a new RDS **private Subnet group** in the active and standby region. This means that traffic coming directly from the Internet will not be allowed. Only traffic coming from the VPC.
 
 **Subnet groups in the active region:**
 ![Primary DB subnetgroup](screenshots/primaryDB_subnetgroup.png "Primary DB subnetgroup")
@@ -82,53 +44,74 @@ In order to achieve the highest levels of durability and availability in AWS you
 **Subnet groups in the secondary region:**
 ![Secondary DB subnetgroup](screenshots/secondaryDB_subnetgroup.png "Secondary DB subnetgroup")
 
+As shown below, public subnets allow traffic incoming from the internet (while private subnet only allows incoming traffic from the VPC)
+
 **Route tables in subnet of the active region:**
 ![Primary subnet routing](screenshots/primary_subnet_routing.png "Primary subnet routing")
 
 **Route tables in subnet of the active region:**
 ![Secondary subnet routing](screenshots/secondary_subnet_routing.png "Secondary subnet routing")
 
+I created a new MySQL with the following parameters:
+- Multi-AZ database to ensure a smooth failover in case of a single AZ outage
+- Have only the “UDARR-Database” **security group**. This security group was defined in the Cloud Formation to only allow traffic from the EC2 instance (not yet created). More specifically, this “UDARR-Database” security group allows traffic from "UDARR-Application" security group inside the VPC using this specific port: 3306 (mysql port).
+- Have an initial database called “udacity.” 
+
+**Configuration of the database in the active region:**
+![Primary DB config](screenshots/primaryDB_config.png "Primary DB config")
+
+After the primary database has been set up, I created a read replica database in the standby region. This database has the same requirements as the database in the active region.
+
+**Configuration of the database in the secondary region:**
+![Secondary DB config](screenshots/secondaryDB_config.png "Secondary DB config")
+
 
 ### Estimate availability of this configuration
-Write a paragraph or two describing the achievable Recovery Time Objective (RTO) and Recovery Point Objective (RPO) for this Multi-AZ, multi-region database in terms of:
+
+Description of Achievable Recovery Time Objective (RTO) and Recovery Point Objective (RPO) for this Multi-AZ, multi-region database in terms of:
 
 1. Minimum RTO for a single AZ outage 
 If a multi-AZ configuration is set up, the fail over to another AZ will happen automatically which can take a few minutes.
     
 2. Minimum RTO for a single region outage
-     ◦ 00:00 - Problem happens (0 minutes) 
-     ◦ 00:05 - An amount of time passes before an alert triggers (5 minutes) 
-     ◦ 00:06 - Alert triggers on-all staff (1 minute) 
-     ◦ 00:16 - On-call staff may need to get out of bed, get to computer, log in, log onto VPN (10 minutes) 
-     ◦ 00:26 - On-call staff starts diagnosing issue (10 minutes) 
-     ◦ 00:41 - Root cause is discovered (15 minutes) 
-     ◦ 00:46 - Remediation started (5 minutes) :  Promote secondary instance to be the new master and then route the traffic to the new endpoint
-     ◦ 00:56 - Remediation completed (10 minutes) 
-     Total time: 56 minutes 
+- 00:00 - Problem happens (0 minutes) 
+- 00:05 - An amount of time passes before an alert triggers (5 minutes) 
+- 00:06 - Alert triggers on-all staff (1 minute) 
+- 00:16 - On-call staff may need to get out of bed, get to computer, log in, log onto VPN (10 minutes) 
+- 00:26 - On-call staff starts diagnosing issue (10 minutes) 
+- 00:41 - Root cause is discovered (15 minutes) 
+- 00:46 - Remediation started (5 minutes) :  Promote secondary instance to be the new master and then route the traffic to the new endpoint
+- 00:56 - Remediation completed (10 minutes) 
+Total time: 56 minutes 
 
 3. Minimum RPO for a single AZ outage
 As it only takes a few minutes to fail over to another AZ, a few minutes of data will be lost.   
        
-    
 4. Minimum RPO for a single region outage 
 If we set up an RDS database with automatic backups enabled, the RPO will be based on how often data is backed up. If we set up a backup every 4 hours, the minimun RPO will be 4 hours.
 
 
 ### Demonstrate normal usage
+
 In the active region:
-1. Create an EC2 keypair in the region
-2. Launch an Amazon Linux EC2 instance in the active region. Configure the instance to use the VPC's public subnet and security group ("UDARR-Application"). 
-3. SSH to the instance and connect to the "udacity" database in the RDS instance. 
-4. Verify that you can create a table, insert data, and read data from the database. 
-5. You have now demonstrated that you can read and write to the primary database
+I created an EC2 keypair and launched an Amazon Linux EC2 instance in the active region with the following configuration:
+- VPC's public subnet
+- Security group ("UDARR-Application") that allows incoming traffic (SSH) from the Internet.
+
+I established a SSH connection to the instance by running this command:
+```
+ssh -i 'absolute/path/to/PrimaryKeyPair.pem' 'EC2 identifiers provided on the EC2 console while clicking on connect'
+```
+After being connected and having mysql installed, I connected to my database by running this command:
+```
+mysql -u admin -p -h {PRIMARY_DATABASE_ENDPOINT}
+```
 
 Log of connecting to the database, creating the table, writing to and reading from the table:
 ![Log Primary](screenshots/log_primary.png "Log Primary")
 
 
 ### Monitor database
-1. Observe the “DB Connections” to the database and how this metric changes as you connect to the database
-2. Observe the “Replication” configuration with your multi-region read replica. 
 
 **DB Connections:**
 ![Monitoring connection](screenshots/monitoring_connections.png "Monitoring connection")
@@ -140,29 +123,23 @@ Log of connecting to the database, creating the table, writing to and reading fr
 ### Failover And Recovery
 In the standby region:
 
-1. Create an EC2 keypair in the region
-2. Launch an Amazon Linux EC2 instance in the standby region. Configure the instance to use the VPC's public subnet and security group ("UDARR-Application").
-3. SSH to the instance and connect to the read replica database.
-4. Verify if you are not able to insert data into the database but are able to read from the database.
-5. You have now demonstrated that you can only read from the read replica database.
+I created an EC2 keypair in the region and launched an Amazon Linux EC2 instance in the standby region with the same configuration as before.
+Since the database in the standby region is a read replica, we can only read from the database but we cannot insert data.
 
-
-**Log of connecting to the database, writing to and reading from the database before the database promotion:**
-![Log before promotion](screenshots/log_rr_before_promotion.png "Log before promotion")
-
-**Database configuration before the database promotion:**
+Database configuration before the **database promotion:**
 ![DB before promotion](screenshots/rr_before_promotion.png "DB before promotion")
 
+Log of connecting to the database, writing to and reading from the database **before the database promotion:**
+![Log before promotion](screenshots/log_rr_before_promotion.png "Log before promotion")
 
-6. Promote the read replica
-7. Verify that if you are able to insert data into and read from the read replica database.
-8. You have now demonstrated that you can read and write the promoted database in the standby region.
+After promoting the read replica, we can now insert data into and read from the read replica database.
 
-**Log of connecting to the database, writing to and reading from the database after the database promotion:**
+Database configuration **after the database promotion:**
+![DB after promotion](screenshots/rr_after_promotion.png "DB after promotion")
+
+Log of connecting to the database, writing to and reading from the database **after the database promotion:**
 ![Log after promotion](screenshots/log_rr_after_promotion.png "Log after promotion")
 
-**Database configuration after the database promotion:**
-![DB after promotion](screenshots/rr_after_promotion.png "DB after promotion")
 
 ### Part 3
 ### Website Resiliency
