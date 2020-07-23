@@ -45,10 +45,10 @@ In order to achieve the highest levels of durability and availability in AWS you
 
 **NOTE**: Be sure to use different CIDR address ranges for the VPCs.
 
-Primary VPC
+**Primary VPC:**
 ![Primary VPC](screenshots/primary_Vpc.png "Primary VPC")
 
-Secondary VPC
+**Secondary VPC:**
 ![Secondary VPC](screenshots/secondary_Vpc.png "Secondary VPC")
 
 
@@ -60,22 +60,22 @@ Secondary VPC
      - Have an initial database called “udacity.”
 3. Create a read replica database in the standby region. This database has the same requirements as the database in the active region. 
 
-Configuration of the database in the active region:
+**Configuration of the database in the active region:**
 ![Primary DB config](screenshots/secondaryDB_config.png "Primary DB config")
 
-Configuration of the database in the secondary region:
+**Configuration of the database in the secondary region:**
 ![Secondary DB config](screenshots/secondaryDB_config.png "Secondary DB config")
 
-Subnet groups in the active region:
+**Subnet groups in the active region:**
 ![Primary DB subnetgroup](screenshots/primaryDB_subnetgroup.png "Primary DB subnetgroup")
 
-Subnet groups in the secondary region:
+**Subnet groups in the secondary region:**
 ![Secondary DB subnetgroup](screenshots/secondaryDB_subnetgroup.png "Secondary DB subnetgroup")
 
-Route tables in subnet of the active region:
+**Route tables in subnet of the active region:**
 ![Primary subnet routing](screenshots/primary_subnet_routing.png "Primary subnet routing")
 
-Route tables in subnet of the active region:
+**Route tables in subnet of the active region:**
 ![Secondary subnet routing](screenshots/secondary_subnet_routing.png "Secondary subnet routing")
 
 
@@ -120,10 +120,10 @@ Log of connecting to the database, creating the table, writing to and reading fr
 1. Observe the “DB Connections” to the database and how this metric changes as you connect to the database
 2. Observe the “Replication” configuration with your multi-region read replica. 
 
-DB Connections:
+**DB Connections:**
 ![Monitoring connection](screenshots/monitoring_connections.png "Monitoring connection")
 
-DB Replication:
+**DB Replication:**
 ![Monitoring replication](screenshots/monitoring_replication.png "Monitoring replication")
 
 ### Part 2
@@ -136,18 +136,22 @@ In the standby region:
 4. Verify if you are not able to insert data into the database but are able to read from the database.
 5. You have now demonstrated that you can only read from the read replica database.
 
-**SAVE** log of connecting to the database, writing to and reading from the table in a text file called "log_rr_before_promotion.txt"
 
-**SAVE** screenshot of the database configuration now, before promoting the read replica database in the next step. Name your screenshot: rr_before_promotion.png
+**Log of connecting to the database, writing to and reading from the database before the database promotion:**
+![Log before promotion](screenshots/log_rr_before_promotion.png "Log before promotion")
+
+**Database configuration before the database promotion:**
+![DB before promotion](screenshots/rr_before_promotion.png "DB before promotion")
+
 
 6. Promote the read replica
 7. Verify that if you are able to insert data into and read from the read replica database.
 8. You have now demonstrated that you can read and write the promoted database in the standby region.
 
-Log of connecting to the database, writing to and reading from the database after the database promotion
+**Log of connecting to the database, writing to and reading from the database after the database promotion:**
 ![Log after promotion](screenshots/log_rr_after_promotion.png "Log after promotion")
 
-Database configuration after the database promotion
+**Database configuration after the database promotion:**
 ![DB after promotion](screenshots/rr_after_promotion.png "DB after promotion")
 
 ### Part 3
