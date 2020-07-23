@@ -1,12 +1,14 @@
 # Data durability and recovery
 
-In this project you will create highly available solutions to common use cases.  You will build a Multi-AvailabilityZone, Multi-Region database and show how to use it in multiple geographically separate AWS regions.  You will also build a website hosting solution that is versioned so that any data destruction and accidents can be quickly and easily undone.
+This project is part of the Udacity Cloud Architect Nanodegree.
 
-## Getting Started
+The goals of this project is to :
+- Build a Multi-AvailabilityZone, Multi-Region database and show how to use it in multiple geographically separate AWS regions.  
+- Build a website hosting solution that is versioned so that any data destruction and accidents can be quickly and easily undone.
 
-To get started, clone this repo.  Aside from instructions, it contains a CloudFormation script to build an AWS VPC with public and private subnets.  It also contains an example website that you will host in an AWS S3 bucket in your account.
+This project was cloned from this repository: https://github.com/udacity/nd063-c2-design-for-availability-resilience-reliability-replacement-project-starter-template
 
-## Project Instructions
+## Project Instructions & Screenshots of achievments
 ### Cloud formation
 In this project, you will use the AWS CloudFormation to create Virtual Private Clouds. CloudFormation is an AWS service that allows you to create "infrastructure as code". This allows you to define the infrastructure you'd like to create in code, just like you do with software. This has the benefits of being able to share your infrastructure in a common language, use source code control systems to version your infrastructure and allows for documenting and reviewing of infrastructure and infrastructure proposed changes.
 
@@ -163,8 +165,9 @@ Build a resilient static web hosting solution in AWS. Create a versioned S3 buck
 2. Upload the files from the GitHub repo (under `/project/s3/`)
 3. Paste URL into a web browser to see your website. 
 
-**Save** the screenshot of the webpage. Name your screenshot "s3_original.png"
-You will now “accidentally” change the contents of the website such that it is no longer serving the correct content
+
+**Original webpage:**
+![Original Webpage](screenshots/s3_original.png "Original Webpage")
 
 You will now “accidentally” change the contents of the website such that it is no longer serving the correct content
 
@@ -172,24 +175,31 @@ You will now “accidentally” change the contents of the website such that it 
 2. Re-upload `index.html`
 3. Refresh web page
 
-**SAVE** a screenshot of the modified webpage. Name your screenshot "s3_season.png"
+**Modified webpage:**
+![Accidental Change Webpage](screenshots/s3_season.png "Accidental Change Webpage")
 
 You will now need to “recover” the website by rolling the content back to a previous version.
 
 1. Recover the `index.html` object back to the original version
 2. Refresh web page
 
-**SAVE** a screenshot of the modified webpage. Name your screenshot "s3_season_revert.png"
+**Modified webpage (reverted):**
+![Reverted Change Webpage](screenshots/s3_season_revert.png "Reverted Change Webpage")
 
 You will now “accidentally” delete contents from the S3 bucket. Delete “winter.jpg”
 
-**SAVE** screenshots of the modified webpage and of the existing versions of the file showing the "Deletion marker". Name your screenshots: s3_deletion.png, s3_delete_marker.png
+**Webpage after content deleted:**
+![Deleted Content Webpage](screenshots/s3_deletion.png "Deleted Content Webpage")
+
+**Existing versions of the file showing the "Deletion marker".**
+![Delete Marker](screenshots/s3_delete_marker.png "Delete Marker")
 
 You will now need to “recover” the object:
 
 1. Recover the deleted object
 2. Refresh web page
 
-**SAVE** a screenshot of the modified webpage. Name your screenshot "s3_delete_revert.png"
+**Recovered Website:**
+![Recovered Website](screenshots/s3_delete_revert.png "Recovered Website")
 
 ## License
