@@ -6,13 +6,8 @@ The goal of this project is to :
 - Build a Multi-AvailabilityZone, Multi-Region database and show how to use it in multiple geographically separate AWS regions.  
 - Build a website hosting solution that is versioned so that any data destruction and accidents can be quickly and easily undone.
 
-AWS resources used:
-- Cloud Formation
-- VPC
-- VPC subnets
-- RDS MySQL
-- EC2
-- S3
+Diagram of set up:
+![AWS Diagram](diagram.png "AWS Diagram")
 
 This project was cloned from this repository: https://github.com/udacity/nd063-c2-design-for-availability-resilience-reliability-replacement-project-starter-template
 
