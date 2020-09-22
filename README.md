@@ -44,7 +44,7 @@ As shown below, public subnets allow traffic incoming from the internet (while p
 **Route tables in subnet of the active region:**
 ![Primary subnet routing](screenshots/primary_subnet_routing.png "Primary subnet routing")
 
-**Route tables in subnet of the active region:**
+**Route tables in subnet of the secondary region:**
 ![Secondary subnet routing](screenshots/secondary_subnet_routing.png "Secondary subnet routing")
 
 I created a new MySQL with the following parameters:
